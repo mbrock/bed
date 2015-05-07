@@ -9,8 +9,8 @@ input { background: #f0f0f0; }
 .lines { overflow-y: scroll; }
 form { position: absolute; bottom: 0; }
 form, input { width: 100%; }
-body, input { font: 26px/42px courier; }
-input { padding: 8px 3ex; border: 0; }
+body, input { font: 26px/42px 'Times New Roman'; }
+input { padding: 8px 3ex; border: 0; font-family: courier; }
 
 .line-enter { opacity: 0; transition: all 0.2s ease-in; }
 .line-enter.line-enter-active { opacity: 1; }
