@@ -1,9 +1,13 @@
 * { font-size: 1em; box-sizing: border-box; margin: 0; padding: 0; }
 :focus { outline: none; }
-html, body, .bed { height: 100%; overflow: hidden; }
+html, body { height: 100%; overflow: hidden; }
+body { background: #f3f3f3; }
+.lines { position: absolute; }
+.lines { top: 1ex; left: 3ex; right: 3ex; }
+.lines { bottom: calc(40px + 8px * 2); }
+.lines { overflow-y: scroll; }
 form { position: absolute; bottom: 0; }
 form, input { width: 100%; }
-body, input { font: 26px 'Times New Roman'; }
-input { padding: 8px; border: 0; }
-.lines { padding: 1em; }
-p { margin-bottom: .5em; }
+body, input { font: 26px/40px 'Times New Roman'; }
+input { padding: 8px 3ex; border: 0; background: white; }
+
