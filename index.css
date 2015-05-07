@@ -1,0 +1,9 @@
+* { font-size: 1em; box-sizing: border-box; margin: 0; padding: 0; }
+:focus { outline: none; }
+html, body, .bed { height: 100%; overflow: hidden; }
+form { position: absolute; bottom: 0; }
+form, input { width: 100%; }
+body, input { font: 26px 'Times New Roman'; }
+input { padding: 8px; border: 0; }
+.lines { padding: 1em; }
+p { margin-bottom: .5em; }
