@@ -1,13 +1,18 @@
 * { font-size: 1em; box-sizing: border-box; margin: 0; padding: 0; }
 :focus { outline: none; }
 html, body { height: 100%; overflow: hidden; }
-body { background: #f3f3f3; }
+body { background: #fafafa; color: #333; }
+input { background: #f0f0f0; }
 .lines { position: absolute; }
 .lines { top: 1ex; left: 3ex; right: 3ex; }
-.lines { bottom: calc(40px + 8px * 2); }
+.lines { bottom: calc(42px + 8px * 2); }
 .lines { overflow-y: scroll; }
 form { position: absolute; bottom: 0; }
 form, input { width: 100%; }
-body, input { font: 26px/40px 'Times New Roman'; }
-input { padding: 8px 3ex; border: 0; background: white; }
+body, input { font: 26px/42px courier; }
+input { padding: 8px 3ex; border: 0; }
 
+.line-enter { opacity: 0; transition: all 0.2s ease-in; }
+.line-enter.line-enter-active { opacity: 1; }
+.line-leave { opacity: 1; transition: all 0.2s ease-in; }
+.line-leave.line-enter-active { opacity: 0; }

@@ -22,9 +22,13 @@ Root = React.createClass({
   render: function () {
     return tag('.bed', {}, [
       tag('.lines', {}, [
-        this.state.lines.map(function (x, i) {
-          return tag('p', { key: i }, [x])
-        })
+        tag(React.addons.CSSTransitionGroup, {
+          transitionName: 'line'
+        }, [
+          this.state.lines.map(function (x, i) {
+            return tag('p', { key: i }, [x])
+          })
+        ])
       ]),
       tag('form', { onSubmit: this.enter }, [
         tag('input', {
