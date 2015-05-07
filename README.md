@@ -1,10 +1,10 @@
 # bed, a simple tool for writing
 
 Writing can be fun. It can also be tedious. Sometimes it feels like
-everything is slipping away, or like the text you're writing is a big
-blob of amorphous stupidity. There are some tools that try to make
-writing more fun, simple, direct. This is another one. It makes you
-edit one line at a time. Or one paragraph at a time.
+the text you're writing is a blob of amorphous stupidity. There are
+some tools that try to make writing more fun, simple, direct. This is
+another one. It makes you edit one line at a time. Or one paragraph at
+a time.
 
 It's inspired by chat. I noticed that when I'm chatting, there's a
 rhythm and liveliness that I miss when I face a text document. As far
