@@ -1,23 +1,61 @@
-localStorage = localStorage || {
-  setItem: function () {},
-  getItem: function () { return [] }
-}
+bed = {}
+bed.file = null
+
+db = new PouchDB('bed')
 
 onload = function () {
-  var x = localStorage.getItem('lines')
-  var lines = x ? JSON.parse(x) : []
-  render()
+  db.info().then(function (info) {
+    bed.open('scratch')
+  })
+
   function render () {
-    React.render(tag(Root, { lines: lines, add: add }), document.body)
+    React.render(tag(Root, bed), document.body)
   }
-  function add (line) {
-    lines.push(line)
-    localStorage.setItem('lines', JSON.stringify(lines))
+
+  change = function (change) {
+    bed = React.addons.update(bed, change)
+    console.dir(JSON.stringify(change))
     render()
+  }
+
+  bed.open = function (id) {
+    console.log("Opening", id)
+    change({ file: { $set: { _id: id, lines: [] }}})
+    db.get(id).then(function (file) {
+      change({ file: { $merge: file }})
+    }).catch(function (e) {
+      bed.save()
+    })
+  }
+
+  bed.save = function () {
+    if (bed.file._id) {
+      console.log("Saving", bed.file._id)
+      db.put(bed.file).then(function (x) {
+        change({ file: { _rev: { $set: x.rev }}})
+      })
+    } else {
+      change({ file: { _id: { $set: prompt("File name") }}})
+      bed.save()
+    }
+  }
+
+  bed.enter = function (line) {
+    if (bed.ask)
+      change({ ask: { $set: void 0 }}), bed.ask.then(line)
+    else {
+      change({
+        file: { lines: { $apply: function (lines) {
+          return (lines || []).concat([line])
+        }}}
+      })
+      bed.save()
+    }
   }
 }
 
 Root = React.createClass({
+  displayName: 'bed',
   getInitialState: function () {
     return { input: '' }
   },
@@ -28,7 +66,7 @@ Root = React.createClass({
 
   enter: function (e) {
     e.preventDefault()
-    this.props.add(this.state.input)
+    bed.enter(this.state.input)
     this.setState({ input: '' })
   },
 
@@ -37,11 +75,7 @@ Root = React.createClass({
       tag('.lines', {}, [
         tag(React.addons.CSSTransitionGroup, {
           transitionName: 'line'
-        }, [
-          this.props.lines.map(function (x, i) {
-            return tag('p', { key: i }, [tag('span', {}, [x])])
-          })
-        ])
+        }, [this.lines()])
       ]),
       tag('form', { onSubmit: this.enter }, [
         tag('input', {
@@ -51,6 +85,16 @@ Root = React.createClass({
         })
       ])
     ])
+  },
+
+  lines: function () {
+    if (this.props.ask)
+      return this.props.ask.q.map(function (x) {
+        return tag('p', {}, [tag('span', {}, [x])])
+      })
+    else return this.props.file.lines.map(function (x, i) {
+      return tag('p', { key: i }, [tag('span', {}, [x])])
+    })
   }
 })
 
