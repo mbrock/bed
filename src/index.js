@@ -53,6 +53,31 @@ onload = function () {
     }
   }
 
+  bed.commands = {
+    '/rename': function () {
+      db.remove(bed.file).then(function () {
+        change({
+          file: { _id: { $set: prompt("New file name") }}
+        })
+        bed.save()
+      })
+    },
+    '/open': function () {
+      db.allDocs().then(function (x) {
+        change({ $merge: {
+          ask: {
+            q: [x.total_rows + ' files.', ''].concat(
+              x.rows.map(function (row) { return row.id })
+            ),
+            then: function (id) {
+              bed.open(id)
+            }
+          }
+        }})
+      })
+    }
+  }
+
   bed.enter = function (line) {
     if (bed.ask) {
       var then = bed.ask.then
@@ -60,32 +85,16 @@ onload = function () {
       then(line)
     }
     else {
-      if (line == '/rename')
-        db.remove(bed.file).then(function () {
-          change({
-            file: { _id: { $set: prompt("New file name") }}
-          })
-          bed.save()
+      if (bed.commands[line])
+        bed.commands[line]()
+      else {
+        change({
+          file: { lines: { $apply: function (lines) {
+            return (lines || []).concat([line])
+          }}}
         })
-      else if (line == '/open')
-        db.allDocs().then(function (x) {
-          change({ $merge: {
-            ask: {
-              q: [x.total_rows + ' files.', ''].concat(
-                x.rows.map(function (row) { return row.id })
-              ),
-              then: function (id) {
-                bed.open(id)
-              }
-            }
-          }})
-        })
-      else change({
-        file: { lines: { $apply: function (lines) {
-          return (lines || []).concat([line])
-        }}}
-      })
-      bed.save()
+        bed.save()
+      }
     }
   }
 }
