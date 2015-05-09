@@ -12,7 +12,7 @@ onload = function () {
         _id: 'bed/scratch',
         lines: [
           'Welcome to bed.',
-          'Use /save, /open, and /rename.'
+          'Use /clear, /open, and /rename.'
         ]
       }).then(function () {
         bed.open('bed/scratch')
@@ -54,6 +54,10 @@ onload = function () {
   }
 
   bed.commands = {
+    '/clear': function () {
+      change({ file: { $merge: { lines: [] }}})
+      bed.save()
+    },
     '/rename': function () {
       db.remove(bed.file).then(function () {
         change({
