@@ -26,7 +26,7 @@ Root = React.createClass({
           transitionName: 'line'
         }, [
           this.state.lines.map(function (x, i) {
-            return tag('p', { key: i }, [x])
+            return tag('p', { key: i }, [tag('span', {}, [x])])
           })
         ])
       ]),

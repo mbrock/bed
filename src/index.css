@@ -7,10 +7,15 @@ input { background: #f0f0f0; }
 .lines { top: 1ex; left: 3ex; right: 3ex; }
 .lines { bottom: calc(42px + 8px * 2); }
 .lines { overflow-y: scroll; }
+.lines { padding-top: 8px; }
 form { position: absolute; bottom: 0; }
 form, input { width: 100%; }
 body, input { font: 26px/42px 'Times New Roman'; }
 input { padding: 8px 3ex; border: 0; font-family: courier; }
+
+p > span { cursor: -webkit-grab; }
+p > span { padding: 8px; border: 1px solid transparent; }
+p > span:hover { background: white; border-radius: 5px; border-color: #ccc; }
 
 .line-enter { opacity: 0; transition: all 0.2s ease-in; }
 .line-enter.line-enter-active { opacity: 1; }
