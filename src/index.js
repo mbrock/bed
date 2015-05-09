@@ -5,7 +5,18 @@ db = new PouchDB('bed')
 
 onload = function () {
   db.info().then(function (info) {
-    bed.open('scratch')
+    if (info.doc_count)
+      bed.open('bed/scratch')
+    else
+      db.put({
+        _id: 'bed/scratch',
+        lines: [
+          'Welcome to bed.',
+          'Use /save, /open, and /rename.'
+        ]
+      }).then(function () {
+        bed.open('bed/scratch')
+      })
   })
 
   function render () {
@@ -13,17 +24,19 @@ onload = function () {
   }
 
   change = function (change) {
-    bed = React.addons.update(bed, change)
     console.dir(JSON.stringify(change))
+    bed = React.addons.update(bed, change)
     render()
   }
 
   bed.open = function (id) {
     console.log("Opening", id)
-    change({ file: { $set: { _id: id, lines: [] }}})
     db.get(id).then(function (file) {
-      change({ file: { $merge: file }})
+      console.log(file)
+      change({ file: { $set: file }})
     }).catch(function (e) {
+      console.warn(e)
+      change({ file: { $set: { _id: id, lines: [] }}})
       bed.save()
     })
   }
@@ -48,8 +61,11 @@ onload = function () {
     }
     else {
       if (line == '/rename')
-        change({
-          file: { _id: { $set: prompt("New file name") }}
+        db.remove(bed.file).then(function () {
+          change({
+            file: { _id: { $set: prompt("New file name") }}
+          })
+          bed.save()
         })
       else if (line == '/open')
         db.allDocs().then(function (x) {
@@ -108,9 +124,10 @@ Root = React.createClass({
       return this.props.ask.q.map(function (x) {
         return tag('p', {}, [tag('span', {}, [x])])
       })
-    else return this.props.file.lines.map(function (x, i) {
-      return tag('p', { key: i }, [tag('span', {}, [x])])
-    })
+    else if (this.props.file.lines)
+      return this.props.file.lines.map(function (x, i) {
+        return tag('p', { key: i }, [tag('span', {}, [x])])
+      })
   }
 })
 
