@@ -41,12 +41,28 @@ onload = function () {
   }
 
   bed.enter = function (line) {
-    if (bed.ask)
-      change({ ask: { $set: void 0 }}), bed.ask.then(line)
+    if (bed.ask) {
+      var then = bed.ask.then
+      change({ ask: { $set: void 0 }})
+      then(line)
+    }
     else {
       if (line == '/rename')
         change({
           file: { _id: { $set: prompt("New file name") }}
+        })
+      else if (line == '/open')
+        db.allDocs().then(function (x) {
+          change({ $merge: {
+            ask: {
+              q: [x.total_rows + ' files.', ''].concat(
+                x.rows.map(function (row) { return row.id })
+              ),
+              then: function (id) {
+                bed.open(id)
+              }
+            }
+          }})
         })
       else change({
         file: { lines: { $apply: function (lines) {
@@ -76,11 +92,7 @@ Root = React.createClass({
 
   render: function () {
     return tag('.bed', {}, [
-      tag('.lines', {}, [
-        tag(React.addons.CSSTransitionGroup, {
-          transitionName: 'line'
-        }, [this.lines()])
-      ]),
+      tag('.lines', {}, [this.lines()]),
       tag('form', { onSubmit: this.enter }, [
         tag('input', {
           autoFocus: true,

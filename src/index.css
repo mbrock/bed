@@ -20,4 +20,4 @@ p > span:hover { background: white; border-radius: 5px; border-color: #ccc; }
 .line-enter { opacity: 0; transition: all 0.2s ease-in; }
 .line-enter.line-enter-active { opacity: 1; }
 .line-leave { opacity: 1; transition: all 0.2s ease-in; }
-.line-leave.line-enter-active { opacity: 0; }
+.line-leave.line-leave-active { opacity: 0; }
