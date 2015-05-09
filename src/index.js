@@ -44,7 +44,11 @@ onload = function () {
     if (bed.ask)
       change({ ask: { $set: void 0 }}), bed.ask.then(line)
     else {
-      change({
+      if (line == '/rename')
+        change({
+          file: { _id: { $set: prompt("New file name") }}
+        })
+      else change({
         file: { lines: { $apply: function (lines) {
           return (lines || []).concat([line])
         }}}
