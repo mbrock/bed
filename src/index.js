@@ -1,10 +1,20 @@
 onload = function () {
-  React.render(tag(Root), document.body)
+  var x = localStorage.getItem('lines')
+  var lines = x ? JSON.parse(x) : []
+  render()
+  function render () {
+    React.render(tag(Root, { lines: lines, add: add }), document.body)
+  }
+  function add (line) {
+    lines.push(line)
+    localStorage.setItem('lines', JSON.stringify(lines))
+    render()
+  }
 }
 
 Root = React.createClass({
   getInitialState: function () {
-    return { input: '', lines: [] }
+    return { input: '' }
   },
 
   change: function (e) {
@@ -13,10 +23,8 @@ Root = React.createClass({
 
   enter: function (e) {
     e.preventDefault()
-    this.setState({
-      lines: this.state.lines.concat([this.state.input]),
-      input: ''
-    })
+    this.props.add(this.state.input)
+    this.setState({ input: '' })
   },
 
   render: function () {
@@ -25,7 +33,7 @@ Root = React.createClass({
         tag(React.addons.CSSTransitionGroup, {
           transitionName: 'line'
         }, [
-          this.state.lines.map(function (x, i) {
+          this.props.lines.map(function (x, i) {
             return tag('p', { key: i }, [tag('span', {}, [x])])
           })
         ])
