@@ -108,7 +108,12 @@ Root = React.createClass({
 
   render: function () {
     return tag('.bed', {}, [
-      tag('.lines', {}, [this.lines()]),
+      tag('main', {}, [
+        this.props.file._id && tag('header', {}, [
+          this.props.file._id
+        ]),
+        tag('.lines', {}, [this.lines()]),
+      ]),
       tag('form', { onSubmit: this.enter }, [
         tag('input', {
           autoFocus: true,
