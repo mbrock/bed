@@ -17,3 +17,7 @@ standard text editor on Unix systems. It's simple to the point of
 absurdity. Since it was invented decades ago, it forces you to write
 and edit line-by-line. Ever since its successor, `vi`, we've been
 using "visual" editors. But `ed` has its charms.
+
+## Technology
+
+`bed` uses PouchDB.
