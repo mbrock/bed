@@ -1,3 +1,8 @@
+localStorage = localStorage || {
+  setItem: function () {},
+  getItem: function () { return [] }
+}
+
 onload = function () {
   var x = localStorage.getItem('lines')
   var lines = x ? JSON.parse(x) : []
