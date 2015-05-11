@@ -129,13 +129,20 @@ Root = React.createClass({
     this.setState({ input: '' })
   },
 
+  componentDidUpdate: function (prev) {
+    if (prev.file && prev.file.lines &&
+        this.props.file && this.props.file.lines &&
+        this.props.file.lines.length > prev.file.lines.length)
+      this.refs.lines.getDOMNode().scrollTop = 999999
+  },
+
   render: function () {
     return tag('.bed', {}, [
       tag('main', {}, [
         this.props.file._id && tag('header', {}, [
           this.props.file._id
         ]),
-        tag('.lines', {}, [this.lines()]),
+        tag('.lines', { ref: 'lines' }, [this.lines()]),
       ]),
       tag('form', { onSubmit: this.enter }, [
         tag('input', {
