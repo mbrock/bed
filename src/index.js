@@ -12,7 +12,8 @@ onload = function () {
         _id: 'bed/scratch',
         lines: [
           'Welcome to bed.',
-          'Use /clear, /open, and /rename.'
+          'Use /clear, /open, and /rename.',
+          'Or /today to open a file for today.'
         ]
       }).then(function () {
         bed.open('bed/scratch')
@@ -79,6 +80,15 @@ onload = function () {
           }
         }})
       })
+    },
+    '/today': function () {
+      var date = new Date
+      var yyyy = '' + date.getFullYear()
+      var mm = '' + (date.getMonth() + 1)
+      var dd = '' + date.getDate().toString()
+      bed.open([
+        yyyy, mm[1] ? mm : "0" + mm[0], dd[1] ? dd : "0" + dd[0]
+      ].join('/'))
     }
   }
 
