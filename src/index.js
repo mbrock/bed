@@ -161,7 +161,9 @@ Root = React.createClass({
       })
     else if (this.props.file.lines)
       return this.props.file.lines.map(function (x, i) {
-        return tag('p', { key: i }, [tag('span', {}, [x])])
+        return tag('p', { key: i }, [
+          tag('span', { dangerouslySetInnerHTML: { __html: x } })
+        ])
       })
   }
 })
