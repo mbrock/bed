@@ -23,7 +23,7 @@ header { border-bottom: 1px solid #ccc; }
 form, input { width: 100%; }
 
 .lines { padding-top: 1ex; }
-.lines { padding-bottom: ex; }
+.lines { padding-bottom: 6ex; }
 
 p > span { margin-left: 1em; padding: 8px; } 
 header, input { padding-left: calc(1em + 8px); }
