@@ -16,19 +16,14 @@ form { bottom: 0; }
 .lines { overflow-y: scroll; }
 .lines { top: calc(42px + 1px); }
 .lines { bottom: calc(42px + 1px); }
+.lines { left: 0; right: 0; }
 
 input { border-top: 1px solid #ccc; }
 header { border-bottom: 1px solid #ccc; }
 form, input { width: 100%; }
 
 .lines { padding-top: 1ex; }
-p > span { cursor: -webkit-grab; }
+.lines { padding-bottom: ex; }
+
 p > span { margin-left: 1em; padding: 8px; } 
 header, input { padding-left: calc(1em + 8px); }
-p > span { border: 1px solid transparent; }
-p > span:hover { background: white; border-radius: 5px; border-color: #ccc; }
-
-.line-enter { opacity: 0; transition: all 0.2s ease-in; }
-.line-enter.line-enter-active { opacity: 1; }
-.line-leave { opacity: 1; transition: all 0.2s ease-in; }
-.line-leave.line-leave-active { opacity: 0; }
